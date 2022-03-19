@@ -12,6 +12,7 @@ from tgbot.handlers.users.process_bot_start import register_process_bot_start
 from tgbot.handlers.users.process_main_menu import register_process_main_menu
 from tgbot.handlers.users.process_product_range import register_process_product_range
 from tgbot.handlers.users.process_review import register_process_review
+from tgbot.handlers.users.products_range.process_colorama_product_range import register_process_colorama_product_range
 from tgbot.handlers.users.products_range.process_fujifilm_product_range import register_process_fujifilm_product_range
 from tgbot.handlers.users.products_range.process_manfrotto_product_range import register_process_manfrotto_product_range
 from tgbot.handlers.users.products_range.process_sigma_product_range import register_process_sigma_product_range
@@ -40,6 +41,7 @@ def register_all_handlers(dp):
     register_process_sigma_product_range(dp)
     register_process_fujifilm_product_range(dp)
     register_process_manfrotto_product_range(dp)
+    register_process_colorama_product_range(dp)
     # тут будет фуджик и тд
 
 

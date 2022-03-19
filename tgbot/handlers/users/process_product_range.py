@@ -2,6 +2,7 @@ from aiogram import types, Dispatcher
 
 from tgbot.keyboards.default.main_menu_kb import main_menukb
 from tgbot.keyboards.inline.callback_datas import brand_choice_callback
+from tgbot.keyboards.inline.colorama_product_range_kb import colorama_product_typekb
 from tgbot.keyboards.inline.fujifilm_product_range_kb import fujifilm_product_typekb
 from tgbot.keyboards.inline.manfrotto_product_range_kb import manfrotto_product_typekb
 from tgbot.keyboards.inline.product_range_kb import brands
@@ -32,6 +33,7 @@ async def action_with_brand_choice(call: types.CallbackQuery, callback_data: dic
                                          message_id=call.message.message_id)
     elif action_type == "colorama":
         await call.bot.edit_message_text(text="Выберите тип товара:",
+                                         reply_markup=colorama_product_typekb,
                                          chat_id=user_id,
                                          message_id=call.message.message_id)
 
