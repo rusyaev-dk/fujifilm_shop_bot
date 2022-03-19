@@ -8,8 +8,17 @@ from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.echo import register_echo
+from tgbot.handlers.users.process_bot_start import register_process_bot_start
+from tgbot.handlers.users.process_main_menu import register_process_main_menu
+from tgbot.handlers.users.process_product_range import register_process_product_range
+from tgbot.handlers.users.process_review import register_process_review
+from tgbot.handlers.users.products_range.process_fujifilm_product_range import register_process_fujifilm_product_range
+from tgbot.handlers.users.products_range.process_manfrotto_product_range import register_process_manfrotto_product_range
+from tgbot.handlers.users.products_range.process_sigma_product_range import register_process_sigma_product_range
 from tgbot.middlewares.db import DbMiddleware
 from tgbot.services import set_bot_commands
+from tgbot.services.db_api import db_gino
+from tgbot.services.db_api.db_gino import db
 from tgbot.services.notifications import notify_admins
 
 logger = logging.getLogger(__name__)
@@ -24,8 +33,18 @@ def register_all_filters(dp):
 
 
 def register_all_handlers(dp):
+    register_process_bot_start(dp)
+
+    register_process_main_menu(dp)
+    register_process_product_range(dp)
+    register_process_sigma_product_range(dp)
+    register_process_fujifilm_product_range(dp)
+    register_process_manfrotto_product_range(dp)
+    # тут будет фуджик и тд
 
 
+
+    register_process_review(dp)
     register_echo(dp)
 
 
@@ -41,6 +60,10 @@ async def main():
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
 
+    await db_gino.on_startup(dp)
+    await db.gino.drop_all()
+    await db.gino.create_all()
+
     bot['config'] = config
 
     register_all_middlewares(dp)
@@ -53,7 +76,7 @@ async def main():
     # уведомляем администраторов о запуске
     await notify_admins.on_startup_notify(dp)
 
-    # start
+    # запуск бота
     try:
         await dp.start_polling()
     finally:
