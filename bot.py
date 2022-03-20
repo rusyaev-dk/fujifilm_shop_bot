@@ -18,6 +18,7 @@ from tgbot.handlers.users.products_range.process_manfrotto_product_range import 
 from tgbot.handlers.users.products_range.process_sigma_product_range import register_process_sigma_product_range
 from tgbot.middlewares.db import DbMiddleware
 from tgbot.services import set_bot_commands
+from tgbot.services.add_items_to_database import add_items
 from tgbot.services.db_api import db_gino
 from tgbot.services.db_api.db_gino import db
 from tgbot.services.notifications import notify_admins
@@ -37,16 +38,14 @@ def register_all_handlers(dp):
     register_process_bot_start(dp)
 
     register_process_main_menu(dp)
+    register_process_review(dp)
     register_process_product_range(dp)
+
     register_process_sigma_product_range(dp)
     register_process_fujifilm_product_range(dp)
     register_process_manfrotto_product_range(dp)
     register_process_colorama_product_range(dp)
-    # тут будет фуджик и тд
 
-
-
-    register_process_review(dp)
     register_echo(dp)
 
 
@@ -71,6 +70,9 @@ async def main():
     register_all_middlewares(dp)
     register_all_filters(dp)
     register_all_handlers(dp)
+
+    # добавляем товары
+    await add_items()
 
     # устанавливаем стандартные команды
     await set_bot_commands.set_default_commands(dp)

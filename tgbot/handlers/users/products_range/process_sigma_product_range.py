@@ -17,6 +17,7 @@ async def action_with_sigma_products(call: types.CallbackQuery, callback_data: d
         await call.bot.edit_message_text(text="Тут будут объективы",
                                          chat_id=user_id,
                                          message_id=call.message.message_id)
+
     elif action_type == "sigma_etc":
         await call.bot.edit_message_text(text="Тут будут аксессуары",
                                          chat_id=user_id,

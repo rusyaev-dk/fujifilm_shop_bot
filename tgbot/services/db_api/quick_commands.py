@@ -1,5 +1,9 @@
-from asyncpg import UniqueViolationError
+from typing import List
 
+from asyncpg import UniqueViolationError
+from sqlalchemy import and_
+
+from tgbot.models.item import Item
 from tgbot.services.db_api.db_gino import db
 from tgbot.models.user import User
 
@@ -13,11 +17,6 @@ async def add_user(id: int, name: str, notification: str = None):
         pass
 
 
-async def select_all_users():
-    users = await User.query.gino.all()
-    return users
-
-
 async def select_user(id: int):
     user = await User.query.where(User.id == id).gino.first()
     return user
@@ -26,3 +25,38 @@ async def select_user(id: int):
 async def count_users():
     total = await db.func.count(User.id).gino.scalar()
     return total
+
+
+async def add_item(**kwargs):
+    try:
+        item = Item(**kwargs)
+        await item.create()
+    except Exception as e:
+        print(e)
+        pass
+
+#BETA:
+# async def add_item(**kwargs):
+#     item = await Item(**kwargs).create()
+#     return item
+
+
+# async def get_categories() -> List[Item]:
+#     return await Item.query.distinct(Item.category_code).gino.all()
+#
+#
+# async def get_subcategories(category) -> List[Item]:
+#     return await Item.query.distinct(Item.subcategory_code).where(Item.category_code == category).gino.all()
+#
+#
+# async def get_items(category_code, subcategory_code) -> List[Item]:
+#     items = await Item.query.where(
+#         and_(Item.category_code == category_code,
+#              Item.subcategory_code == subcategory_code)
+#     ).gino.all()
+#     return items
+#
+#
+# async def get_item(item_id) -> Item:
+#     item = await Item.query.where(Item.id == item_id).gino.first()
+#     return item

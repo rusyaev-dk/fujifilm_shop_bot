@@ -2,13 +2,14 @@ from aiogram import types, Dispatcher
 from aiogram.types import ReplyKeyboardRemove
 
 from tgbot.keyboards.default.write_review_kb import review_menu
-from tgbot.keyboards.inline.callback_datas import brand_choice_callback
 from tgbot.keyboards.inline.product_range_kb import choose_brandkb
 from tgbot.misc.states import Review
 
 
 async def show_product_range(message: types.Message):
-    await message.answer("ТРататара", reply_markup=ReplyKeyboardRemove())
+    await message.answer("Наш магазин является официальным дистрибьютором таких"
+                         " брендов, как: Fujifilm, Sigma, Colorama, Manfrotto.",
+                         reply_markup=ReplyKeyboardRemove())
     await message.answer("Выберите бренд:", reply_markup=choose_brandkb)
 
 
