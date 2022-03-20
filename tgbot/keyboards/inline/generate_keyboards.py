@@ -3,7 +3,7 @@ from aiogram.utils.callback_data import CallbackData
 from tgbot.services.db_api import quick_commands as commands
 
 menu_callback = CallbackData("show_menu", "level", "category", "subcategory", "item_id", "cancel")
-buy_item_callback = CallbackData("buy", "item_id")
+interaction_with_item_callback = CallbackData("action", "item_id")
 
 
 def make_callback_data(level, category="0", subcategory="0", item_id="0", cancel="0"):
@@ -22,7 +22,12 @@ async def categories_keyboard():
         markup.insert(
             InlineKeyboardButton(text=button_text, callback_data=callback_data)
         )
-
+    markup.row(
+        # level = ... Мы передали тот уровень НА КОТОРЫЙ хотим переместиться
+        InlineKeyboardButton(text="⬅️ Главное меню",
+                             callback_data=make_callback_data(level=current_level - 1,
+                                                              cancel="cancel_1"))
+    )
     return markup
 
 
@@ -75,8 +80,8 @@ def item_keyboard(category, subcategory, item_id):
     current_level = 3
     markup = InlineKeyboardMarkup()
     markup.row(
-        InlineKeyboardButton(text="Купить",
-                             callback_data=buy_item_callback.new(item_id=item_id))
+        InlineKeyboardButton(text="Более подробное описание",
+                             callback_data=interaction_with_item_callback.new(item_id=item_id))
     )
     markup.row(
         InlineKeyboardButton(text="⬅️ Назад",

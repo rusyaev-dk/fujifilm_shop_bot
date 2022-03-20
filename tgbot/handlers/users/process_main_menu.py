@@ -3,11 +3,19 @@ from typing import Union
 from aiogram import types, Dispatcher
 from aiogram.types import ReplyKeyboardRemove
 
+from tgbot.keyboards.default.main_menu_kb import main_menukb
 from tgbot.keyboards.default.write_review_kb import review_menu
 from tgbot.keyboards.inline.generate_keyboards import item_keyboard, subcategories_keyboard, categories_keyboard, \
     items_keyboard, menu_callback
 from tgbot.misc.states import Review
 from tgbot.services.db_api import quick_commands as commands
+
+
+async def back_to_main_menu(call: types.CallbackQuery, category="0", subcategory="0", item_id="0"):
+    user_id = call.from_user.id
+    await call.bot.delete_message(chat_id=user_id,
+                                  message_id=call.message.message_id)
+    await call.message.answer("Главное меню:", reply_markup=main_menukb)
 
 
 async def show_product_range(message: types.Message):
@@ -39,7 +47,7 @@ async def show_item(call: types.CallbackQuery, category, subcategory, item_id):
     markup = item_keyboard(category=category, subcategory=subcategory, item_id=item_id)
 
     item = await commands.get_item(item_id=item_id)
-    text = f"Купи {item.name}"
+    text = f"Тут будет описание {item.name}"
     await call.message.edit_text(text, reply_markup=markup)
 
 
@@ -51,6 +59,7 @@ async def navigate(call: types.CallbackQuery, callback_data: dict):
     cancel = callback_data.get("cancel")
 
     levels = {
+        "-1": back_to_main_menu,
         "0": list_categories,
         "1": list_subcategories,
         "2": list_items,
