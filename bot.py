@@ -10,12 +10,7 @@ from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.echo import register_echo
 from tgbot.handlers.users.process_bot_start import register_process_bot_start
 from tgbot.handlers.users.process_main_menu import register_process_main_menu
-from tgbot.handlers.users.process_product_range import register_process_product_range
 from tgbot.handlers.users.process_review import register_process_review
-from tgbot.handlers.users.products_range.process_colorama_product_range import register_process_colorama_product_range
-from tgbot.handlers.users.products_range.process_fujifilm_product_range import register_process_fujifilm_product_range
-from tgbot.handlers.users.products_range.process_manfrotto_product_range import register_process_manfrotto_product_range
-from tgbot.handlers.users.products_range.process_sigma_product_range import register_process_sigma_product_range
 from tgbot.middlewares.db import DbMiddleware
 from tgbot.services import set_bot_commands
 from tgbot.services.add_items_to_database import add_items
@@ -39,12 +34,6 @@ def register_all_handlers(dp):
 
     register_process_main_menu(dp)
     register_process_review(dp)
-    register_process_product_range(dp)
-
-    register_process_sigma_product_range(dp)
-    register_process_fujifilm_product_range(dp)
-    register_process_manfrotto_product_range(dp)
-    register_process_colorama_product_range(dp)
 
     register_echo(dp)
 
