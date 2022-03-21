@@ -1,7 +1,7 @@
 from typing import Union
 
 from aiogram import types, Dispatcher
-from aiogram.types import ReplyKeyboardRemove
+from aiogram.types import ReplyKeyboardRemove, InputFile
 
 from tgbot.keyboards.default.main_menu_kb import main_menukb
 from tgbot.keyboards.default.write_review_kb import review_menu
@@ -19,7 +19,7 @@ async def back_to_main_menu(call: types.CallbackQuery, category="0", subcategory
 
 
 async def show_product_range(message: types.Message):
-    await message.answer("Наш магазин является официальным дистрибьютором таких"
+    await message.answer("🤝 Наш магазин является официальным дистрибьютором таких"
                          " брендов, как: Fujifilm, Sigma, Colorama, Manfrotto.", reply_markup=ReplyKeyboardRemove())
     await list_categories(message)
 
@@ -27,28 +27,38 @@ async def show_product_range(message: types.Message):
 async def list_categories(message: Union[types.Message, types.CallbackQuery], **kwargs):
     markup = await categories_keyboard()
     if isinstance(message, types.Message):
-        await message.answer("Выберите бренд:", reply_markup=markup)
+        await message.answer("🔹 Выберите бренд:", reply_markup=markup)
     elif isinstance(message, types.CallbackQuery):
         call = message
-        await call.message.edit_text(text="Выберите бренд:", reply_markup=markup)
+        await call.message.edit_text(text="🔹 Выберите бренд:", reply_markup=markup)
 
 
 async def list_subcategories(call: types.CallbackQuery, category, **kwargs):
     markup = await subcategories_keyboard(category)
-    await call.message.edit_text(text="Выберите категорию:", reply_markup=markup)
+    await call.message.edit_text(text="🔹 Выберите категорию:", reply_markup=markup)
 
 
 async def list_items(call: types.CallbackQuery, category, subcategory, **kwargs):
     markup = await items_keyboard(category, subcategory)
-    await call.message.edit_text("Выберите продукт:", reply_markup=markup)
+    await call.bot.delete_message(chat_id=call.from_user.id,
+                                  message_id=call.message.message_id)
+    await call.message.answer(text="🔹 Выберите продукт:",
+                              reply_markup=markup)
 
 
 async def show_item(call: types.CallbackQuery, category, subcategory, item_id):
     markup = item_keyboard(category=category, subcategory=subcategory, item_id=item_id)
-
+    user_id = call.from_user.id
     item = await commands.get_item(item_id=item_id)
-    text = f"Тут будет описание {item.name}"
-    await call.message.edit_text(text, reply_markup=markup)
+    text = (f"<b>{item.name}</b>\n\n"
+            f"{item.caption}")
+    photo = InputFile(f"{item.photo}")
+    await call.bot.delete_message(chat_id=user_id,
+                                  message_id=call.message.message_id)
+    await call.bot.send_photo(photo=photo,
+                              chat_id=user_id,
+                              caption=text,
+                              reply_markup=markup)
 
 
 async def navigate(call: types.CallbackQuery, callback_data: dict):

@@ -16,20 +16,12 @@ class Item(BaseModel):
     name = Column(String(50))
     price = Column(Integer)
     photo = Column(String(100))
-    caption = Column(String(500))
+    caption = Column(String(1000))
 
     query: sql.select
 
-
-# class Item(BaseModel):
-#     __tablename__ = "products"
-#
-#     id = Column(Integer, primary_key=True)
-#     category = Column(String(50))
-#     subcategory = Column(String(50))
-#     name = Column(String(50))
-#     price = Column(Integer)
-#     photo = Column(String(100))
-#     caption = Column(String(500))
-#
-#     query: sql.select
+#     def __repr__(self):
+#         return f"""
+#     <b>{self.name}</b>\n\n
+#     {self.caption}
+# """

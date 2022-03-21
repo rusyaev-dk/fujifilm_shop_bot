@@ -56,7 +56,7 @@ async def subcategories_keyboard(category):
 
 async def items_keyboard(category, subcategory):
     current_level = 2
-    markup = InlineKeyboardMarkup(row_width=1)
+    markup = InlineKeyboardMarkup(row_width=2)
     items = await commands.get_items(category, subcategory)
     for item in items:
         button_text = f"{item.name}"
@@ -81,9 +81,9 @@ async def items_keyboard(category, subcategory):
 
 def item_keyboard(category, subcategory, item_id):
     current_level = 3
-    markup = InlineKeyboardMarkup()
+    markup = InlineKeyboardMarkup(row_width=1)
     markup.row(
-        InlineKeyboardButton(text="Более подробное описание",
+        InlineKeyboardButton(text="📎 Более подробное описание",
                              callback_data=interaction_with_item_callback.new(item_id=item_id))
     )
     markup.row(
