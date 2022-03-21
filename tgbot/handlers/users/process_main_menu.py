@@ -56,7 +56,6 @@ async def navigate(call: types.CallbackQuery, callback_data: dict):
     category = callback_data.get("category")
     subcategory = callback_data.get("subcategory")
     item_id = int(callback_data.get("item_id"))
-    cancel = callback_data.get("cancel")
 
     levels = {
         "-1": back_to_main_menu,

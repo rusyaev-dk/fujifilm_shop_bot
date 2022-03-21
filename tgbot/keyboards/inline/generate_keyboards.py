@@ -2,13 +2,15 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
 from tgbot.services.db_api import quick_commands as commands
 
-menu_callback = CallbackData("show_menu", "level", "category", "subcategory", "item_id", "cancel")
+menu_callback = CallbackData("show_menu", "level", "category", "subcategory", "item_id")
 interaction_with_item_callback = CallbackData("action", "item_id")
 
+# УБРАТЬ CANCEL_1, CANCEL_2...
 
-def make_callback_data(level, category="0", subcategory="0", item_id="0", cancel="0"):
+
+def make_callback_data(level, category="0", subcategory="0", item_id="0"):
     return menu_callback.new(level=level, category=category,
-                             subcategory=subcategory, item_id=item_id, cancel=cancel)
+                             subcategory=subcategory, item_id=item_id)
 
 
 async def categories_keyboard():
@@ -25,8 +27,7 @@ async def categories_keyboard():
     markup.row(
         # level = ... Мы передали тот уровень НА КОТОРЫЙ хотим переместиться
         InlineKeyboardButton(text="⬅️ Главное меню",
-                             callback_data=make_callback_data(level=current_level - 1,
-                                                              cancel="cancel_1"))
+                             callback_data=make_callback_data(level=current_level - 1)),
     )
     return markup
 
@@ -46,8 +47,9 @@ async def subcategories_keyboard(category):
     markup.row(
         # level = ... Мы передали тот уровень НА КОТОРЫЙ хотим переместиться
         InlineKeyboardButton(text="⬅️ Назад",
-                             callback_data=make_callback_data(level=current_level - 1,
-                                                              cancel="cancel_1"))
+                             callback_data=make_callback_data(level=current_level - 1)),
+        InlineKeyboardButton(text="⏺ Главное меню",
+                             callback_data=make_callback_data(level=current_level - 2))
     )
     return markup
 
@@ -70,8 +72,9 @@ async def items_keyboard(category, subcategory):
         # level = ... Мы передали тот уровень НА КОТОРЫЙ хотим переместиться
         InlineKeyboardButton(text="⬅️ Назад",
                              callback_data=make_callback_data(level=current_level - 1,
-                                                              category=category,
-                                                              cancel="cancel_2"))
+                                                              category=category)),
+        InlineKeyboardButton(text="⏺ Главное меню",
+                             callback_data=make_callback_data(level=current_level - 3))
     )
     return markup
 
@@ -87,7 +90,8 @@ def item_keyboard(category, subcategory, item_id):
         InlineKeyboardButton(text="⬅️ Назад",
                              callback_data=make_callback_data(level=current_level - 1,
                                                               category=category,
-                                                              subcategory=subcategory,
-                                                              cancel="cancel_3"))
+                                                              subcategory=subcategory)),
+        InlineKeyboardButton(text="⏺ Главное меню",
+                             callback_data=make_callback_data(level=current_level - 4))
     )
     return markup
