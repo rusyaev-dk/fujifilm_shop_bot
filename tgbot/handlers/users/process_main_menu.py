@@ -40,10 +40,12 @@ async def list_subcategories(call: types.CallbackQuery, category, **kwargs):
 
 async def list_items(call: types.CallbackQuery, category, subcategory, **kwargs):
     markup = await items_keyboard(category, subcategory)
-    await call.bot.delete_message(chat_id=call.from_user.id,
-                                  message_id=call.message.message_id)
-    await call.message.answer(text="🔹 Выберите продукт:",
-                              reply_markup=markup)
+    # await call.bot.delete_message(chat_id=call.from_user.id,
+    #                               message_id=call.message.message_id)
+    # await call.message.answer(text="🔹 Выберите продукт:",
+    #                           reply_markup=markup)
+    await call.message.edit_text(text="🔹 Выберите продукт:",
+                                 reply_markup=markup)
 
 
 async def show_item(call: types.CallbackQuery, category, subcategory, item_id):
@@ -52,12 +54,13 @@ async def show_item(call: types.CallbackQuery, category, subcategory, item_id):
     item = await commands.get_item(item_id=item_id)
     text = (f"<b>{item.name}</b>\n\n"
             f"{item.caption}")
-    photo = InputFile(f"{item.photo}")
+    photo = f"{item.photo}"
     await call.bot.delete_message(chat_id=user_id,
                                   message_id=call.message.message_id)
     await call.bot.send_photo(photo=photo,
                               chat_id=user_id,
-                              caption=text,
+                              caption=text)
+    await call.message.answer(text="🔹 Выберите действие:",
                               reply_markup=markup)
 
 

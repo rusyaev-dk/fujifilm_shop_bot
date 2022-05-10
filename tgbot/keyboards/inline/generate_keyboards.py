@@ -5,8 +5,6 @@ from tgbot.services.db_api import quick_commands as commands
 menu_callback = CallbackData("show_menu", "level", "category", "subcategory", "item_id")
 interaction_with_item_callback = CallbackData("action", "item_id")
 
-# УБРАТЬ CANCEL_1, CANCEL_2...
-
 
 def make_callback_data(level, category="0", subcategory="0", item_id="0"):
     return menu_callback.new(level=level, category=category,
@@ -83,7 +81,7 @@ def item_keyboard(category, subcategory, item_id):
     current_level = 3
     markup = InlineKeyboardMarkup(row_width=1)
     markup.row(
-        InlineKeyboardButton(text="📎 Более подробное описание",
+        InlineKeyboardButton(text="📎 Подробнее о товаре",
                              callback_data=interaction_with_item_callback.new(item_id=item_id))
     )
     markup.row(

@@ -4,3 +4,7 @@ environs~=9.0
 asyncpg~=0.25.0
 gino<1.4
 sqlalchemy
+asgiref
+Django>=3.0
+jsonfield
+psycopg2-binary

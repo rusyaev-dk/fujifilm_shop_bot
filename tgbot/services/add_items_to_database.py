@@ -1,6 +1,5 @@
 from tgbot.services.db_api.quick_commands import add_item
-from tgbot.services.items_captions import sigma14_24_cap, sigma50_cap, sigma18_35_cap, fuji_xt3_cap, fuji_xt4_cap, \
-    fuji_xf35_cap, fuji_xf33_cap, manf_PV_610_cap, sigma14_24_ph
+from tgbot.services.items_captions import *
 
 
 async def add_items():
