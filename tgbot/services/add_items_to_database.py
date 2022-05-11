@@ -6,7 +6,7 @@ async def add_items():
     await add_item(name="Sigma 14-24mm",
                    category_name="Sigma", category_code="sigma",
                    subcategory_name="Объективы", subcategory_code="lens",
-                   price=1300, photo=sigma14_24_ph, caption=sigma14_24_cap)
+                   price=1300, photo=sigma14_24_ph, caption=sigma14_24_cap, detailed_inf=sigma14_24_inf)
     await add_item(name="Sigma 50mm",
                    category_name="Sigma", category_code="sigma",
                    subcategory_name="Объективы", subcategory_code="lens",

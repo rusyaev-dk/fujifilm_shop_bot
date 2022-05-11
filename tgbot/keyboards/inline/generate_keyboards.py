@@ -77,12 +77,14 @@ async def items_keyboard(category, subcategory):
     return markup
 
 
-def item_keyboard(category, subcategory, item_id):
+async def item_keyboard(category, subcategory, item_id):
     current_level = 3
     markup = InlineKeyboardMarkup(row_width=1)
+    item = await commands.get_item(item_id=item_id)
     markup.row(
         InlineKeyboardButton(text="📎 Подробнее о товаре",
-                             callback_data=interaction_with_item_callback.new(item_id=item_id))
+                             callback_data=interaction_with_item_callback.new(item_id=item_id),
+                             url=f"{item.detailed_inf}")
     )
     markup.row(
         InlineKeyboardButton(text="⬅️ Назад",

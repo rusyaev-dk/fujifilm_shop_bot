@@ -1,7 +1,7 @@
 from typing import Union
 
 from aiogram import types, Dispatcher
-from aiogram.types import ReplyKeyboardRemove, InputFile
+from aiogram.types import ReplyKeyboardRemove
 
 from tgbot.keyboards.default.main_menu_kb import main_menukb
 from tgbot.keyboards.default.write_review_kb import review_menu
@@ -49,7 +49,7 @@ async def list_items(call: types.CallbackQuery, category, subcategory, **kwargs)
 
 
 async def show_item(call: types.CallbackQuery, category, subcategory, item_id):
-    markup = item_keyboard(category=category, subcategory=subcategory, item_id=item_id)
+    markup = await item_keyboard(category=category, subcategory=subcategory, item_id=item_id)
     user_id = call.from_user.id
     item = await commands.get_item(item_id=item_id)
     text = (f"<b>{item.name}</b>\n\n"

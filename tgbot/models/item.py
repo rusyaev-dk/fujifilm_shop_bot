@@ -17,6 +17,7 @@ class Item(BaseModel):
     price = Column(Integer)
     photo = Column(String(100))
     caption = Column(String(1000))
+    detailed_inf = Column(String(200))
 
     query: sql.select
 
