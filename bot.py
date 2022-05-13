@@ -8,7 +8,9 @@ from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.echo import register_echo
+from tgbot.handlers.users.process_additional_commands import register_process_additional_commands
 from tgbot.handlers.users.process_bot_start import register_process_bot_start
+from tgbot.handlers.users.process_delete_items import register_process_delete_items
 from tgbot.handlers.users.process_main_menu import register_process_main_menu
 from tgbot.handlers.users.process_review import register_process_review
 from tgbot.middlewares.db import DbMiddleware
@@ -31,11 +33,14 @@ def register_all_filters(dp):
 
 def register_all_handlers(dp):
     register_process_bot_start(dp)
+    register_process_additional_commands(dp)
 
     register_process_main_menu(dp)
     register_process_review(dp)
 
-    register_echo(dp)
+    register_process_delete_items(dp)
+
+    # register_echo(dp)
 
 
 async def main():
@@ -51,7 +56,7 @@ async def main():
     dp = Dispatcher(bot, storage=storage)
 
     await db_gino.on_startup(dp)
-    await db.gino.drop_all()
+    # await db.gino.drop_all()
     await db.gino.create_all()
 
     bot['config'] = config

@@ -6,7 +6,7 @@ from tgbot.services.db_api.db_gino import BaseModel
 class Item(BaseModel):
     __tablename__ = "products"
 
-    id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
+    id = Column(Integer, primary_key=True)
     category_code = Column(String(20))
     category_name = Column(String(50))
 
@@ -15,7 +15,7 @@ class Item(BaseModel):
 
     name = Column(String(50))
     price = Column(Integer)
-    photo = Column(String(100))
+    photo = Column(String(200))
     caption = Column(String(1000))
     detailed_inf = Column(String(200))
 

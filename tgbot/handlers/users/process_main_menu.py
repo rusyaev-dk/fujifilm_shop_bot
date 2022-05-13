@@ -90,7 +90,12 @@ async def write_review(message: types.Message):
     await Review.Q1.set()
 
 
+async def show_contact_information(message: types.Message):
+    await message.answer("Тут будет контактная информация...")
+
+
 def register_process_main_menu(dp: Dispatcher):
     dp.register_message_handler(show_product_range, text="📷 Ассортимент", state="*")
     dp.register_callback_query_handler(navigate, menu_callback.filter(), state="*")
     dp.register_message_handler(write_review, text="✍️ Оставить отзыв", state="*")
+    dp.register_message_handler(show_contact_information, text="📞 Контактная информация", state="*")

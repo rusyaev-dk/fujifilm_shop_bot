@@ -43,8 +43,12 @@ async def count_users():
 #     ).gino.all()
 #     return items
 async def add_item(**kwargs):
-    new_item = await Item(**kwargs).create()
-    return new_item
+    try:
+        new_item = await Item(**kwargs).create()
+        return new_item
+    except UniqueViolationError:
+        print("Ошибка уникальности. Товар уже есть в базе данных!")
+        pass
 
 
 async def get_categories() -> List[Item]:
@@ -69,3 +73,8 @@ async def get_items(category_code, subcategory_code) -> List[Item]:
 async def get_item(item_id) -> Item:
     item = await Item.query.where(Item.id == item_id).gino.first()
     return item
+
+
+async def delete_items(*args):
+    await Item.delete.where(Item.id > 0).gino.status()
+    print("Удаление таблицы...")
