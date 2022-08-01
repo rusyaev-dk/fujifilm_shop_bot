@@ -12,8 +12,9 @@ from tgbot.handlers.users.process_additional_commands import register_process_ad
 from tgbot.handlers.users.process_bot_start import register_process_bot_start
 from tgbot.handlers.users.process_delete_items import register_process_delete_items
 from tgbot.handlers.users.process_main_menu import register_process_main_menu
-from tgbot.handlers.users.process_review import register_process_review
+from tgbot.handlers.users.process_mm_sections import register_process_mm_sections
 from tgbot.middlewares.db import DbMiddleware
+from tgbot.middlewares.throttling import ThrottlingMiddleware
 from tgbot.services import set_bot_commands
 from tgbot.services.add_items_to_database import add_items
 from tgbot.services.db_api import db_gino
@@ -25,6 +26,7 @@ logger = logging.getLogger(__name__)
 
 def register_all_middlewares(dp):
     dp.setup_middleware(DbMiddleware())
+    dp.setup_middleware(ThrottlingMiddleware())
 
 
 def register_all_filters(dp):
@@ -36,7 +38,7 @@ def register_all_handlers(dp):
     register_process_additional_commands(dp)
 
     register_process_main_menu(dp)
-    register_process_review(dp)
+    register_process_mm_sections(dp)
 
     register_process_delete_items(dp)
 

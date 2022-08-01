@@ -48,7 +48,6 @@ class ThrottlingMiddleware(BaseMiddleware):
 
         if throttled.exceeded_count <= 2:
             service_message = await message.reply(text)
-
             await asyncio.sleep(5)
             await service_message.delete()
             await message.delete()

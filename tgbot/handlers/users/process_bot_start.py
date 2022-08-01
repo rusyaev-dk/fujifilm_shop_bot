@@ -1,13 +1,17 @@
 from aiogram import Dispatcher
 from aiogram.types import Message
 
-from tgbot.keyboards.default.main_menu_kb import main_menukb
+
+from tgbot.keyboards.inline.additional_keyboards import main_menu_kb
+from tgbot.misc.throttling_function import rate_limit
 from tgbot.services.db_api import quick_commands as commands
 
 
+@rate_limit(5)
 async def user_start_bot(message: Message):
-    await message.answer(f"Здравствуйте, {message.from_user.full_name}! Главное меню:",
-                         reply_markup=main_menukb)
+    await message.answer(f"Здравствуйте, {message.from_user.full_name}!\n"
+                         f"Главное меню:",
+                         reply_markup=main_menu_kb)
 
     await commands.add_user(id=message.from_user.id,
                             name=message.from_user.full_name)

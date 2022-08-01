@@ -42,6 +42,8 @@ async def count_users():
 #              Item.subcategory == subcategory)
 #     ).gino.all()
 #     return items
+
+
 async def add_item(**kwargs):
     try:
         new_item = await Item(**kwargs).create()
