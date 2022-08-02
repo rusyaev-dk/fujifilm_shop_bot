@@ -17,9 +17,11 @@ from tgbot.middlewares.db import DbMiddleware
 from tgbot.middlewares.throttling import ThrottlingMiddleware
 from tgbot.services import set_bot_commands
 from tgbot.services.add_items_to_database import add_items
+from tgbot.services.alert_users_func import register_alert_users_function
 from tgbot.services.db_api import db_gino
 from tgbot.services.db_api.db_gino import db
 from tgbot.services.notifications import notify_admins
+from tgbot.services.statistics_func import register_statistics_function
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,8 @@ def register_all_filters(dp):
 def register_all_handlers(dp):
     register_process_bot_start(dp)
     register_process_additional_commands(dp)
+    register_statistics_function(dp)
+    register_alert_users_function(dp)
 
     register_process_main_menu(dp)
     register_process_mm_sections(dp)

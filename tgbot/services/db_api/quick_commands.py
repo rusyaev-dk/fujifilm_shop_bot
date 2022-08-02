@@ -22,6 +22,11 @@ async def select_user(id: int):
     return user
 
 
+async def select_all_users():
+    users = await User.query.gino.all()
+    return users
+
+
 async def count_users():
     total = await db.func.count(User.id).gino.scalar()
     return total
